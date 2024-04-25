@@ -1,0 +1,101 @@
+---
+title: "A report on the cumulative confirmed cases of Ebola in selected West African Countries from October 2015 to March 2016"
+author: "Samuel G. Okech"
+date: today
+format:
+  html:
+    toc: true
+    toc-location: body
+    code-fold: show
+    code-tools: true
+    embed-resources: true
+  pdf:
+    toc: true
+  docx:
+    toc: true
+---
+
+```{r}
+#| output: false
+# Load libraries
+library(here)
+library(tidyverse)
+library(lubridate)
+library(unibeCols)
+```
+
+## Introduction
+
+This is a report about cumulative number of cases of Ebola in selected West Africa countries over the period....
+
+## Data
+
+This report is based on data that was obtained from...
+
+```{r}
+#| output: false
+# Read data
+cases <- read_csv(here("data/raw/ebola.csv"))
+str(cases)
+```
+
+I want to select some West African countries
+
+```{r}
+cases_2 <- cases |> mutate (across(c(Country), factor))
+    # region = factor(region))
+```
+
+```{r}
+str(cases_2)
+```
+```{r}
+cases_African <- cases_2 %>% filter(Country %in% c("Guinea", "Liberia", "Sierra Leone", "Mali"))
+```
+
+## Visualisation
+
+@fig-conf shows the cumulative number of confirmed Ebola cases in selected West African countries from October 2015 to March 2016
+```{r}
+#| label: fig-conf
+#| fig-cap: "Confirmed cases of Ebola in selected West African countries from October 2015 to March 2016."
+#| fig-width: 6
+#| fig-height: 4
+ggplot(data = cases_African, mapping = aes(x = Country, y = Cum_conf_cases)) + 
+  geom_col(position = "stack", alpha = 1.0, fill = "blue", linetype = "solid", linewidth = 0.5, width = 0.4) +labs(x = "Country", y = "Number of confirmed cases") +
+  theme_minimal()
+```
+
+@fig-susp shows the cumulative number of suspected Ebola cases in selected West African countries from October 2015 to March 2016
+```{r}
+#| label: fig-susp
+#| fig-cap: "Suspected cases of Ebola in selected West African countries from October 2015 to March 2016."
+#| fig-width: 6
+#| fig-height: 4
+ggplot(data = cases_African, mapping = aes(x = Country, y = Cum_susp_cases)) + 
+  geom_col(position = "stack", alpha = 1.0, fill = "green", linetype = "solid", linewidth = 0.5, width = 0.4) +labs(x = "Country", y = "Number of suspected cases") +
+  theme_minimal()
+```
+
+@fig-death shows the cumulative number of deaths from Ebola in selected West African countries from October 2015 to March 2016
+```{r}
+#| label: fig-death
+#| fig-cap: "Deaths from Ebola in selected West African countries from October 2015 to March 2016."
+#| fig-width: 6
+#| fig-height: 4
+ggplot(data = cases_African, mapping = aes(x = Country, y = Cum_conf_death)) + 
+  geom_col(position = "stack", alpha = 1.0, fill = "red", linetype = "solid", linewidth = 0.5, width = 0.4) +labs(x = "Country", y = "Number of deaths") +
+  theme_minimal()
+```
+
+
+## Conclusion
+During the period of surveillance, Sierra Leone reported more than twice the number of confirmed cases of Ebola than Guinea and Liberia. Consequently, more deaths were reported in Sierra Leone than the other two countries.
+
+## Acknowledgement
+I give special appreciation to the team at ISPM University of Bern, led by Prof. Christian Althaus for the support rendered in the production of this report.
+
+
+
+
+

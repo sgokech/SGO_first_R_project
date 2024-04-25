@@ -1,0 +1,56 @@
+---
+title: "Second wave of COVID-19 in Switzerland"
+author: "SGO"
+date: today
+format:
+  html:
+    toc: true
+    toc-location: body
+    code-fold: show
+    code-tools: true
+    df-print: paged
+    embed-resources: true
+  pdf:
+    toc: true
+  docx: 
+    toc: true
+---
+
+## Introduction
+
+The aim of this exercise is to visualise the increase in the laboratory-confirmed cases of COVID-19 in Switzerland during autmn 2020.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+#|output: false
+# Load libraries
+library(here)
+library(tidyverse)
+library(lubridate)
+library(unibeCols)
+```
+
+```{r}
+#|output: false
+# Read data
+cases <- read_csv(here("data/raw/COVID19Cases_geoRegion.csv"))
+```
+
+Figure 1 shows the number of laboratory-confirmed bla bla
+```{r}
+#|label: fig-cases
+#|fig-cap: "Laboratory-confirmed cases of COVID-19 in Switzerland in 2020."
+#|fig-width: 8
+#|fig-height: 4
+ggplot(cases, aes(x= datum, y = entries)) + geom_bar(stat = "identity", fill = unibeSaphire())
+```
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).

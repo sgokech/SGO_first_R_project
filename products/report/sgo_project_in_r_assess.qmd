@@ -1,0 +1,65 @@
+---
+title: "Body mass index of working adults in a community in Switzerland"
+author: Samuel G. Okech
+date: today
+format:
+  html:
+    toc: true
+    toc-location: body
+    code-fold: show
+    code-tools: true
+    df-print: paged
+    embed-resources: true
+  pdf:
+    toc: true
+  docx:
+    toc: true
+---
+
+```{r}
+#| output: false
+# Load libraries
+library(here)
+library(tidyverse)
+library(lubridate)
+library(unibeCols)
+library(medicaldata)
+```
+
+## Introduction
+
+This report is based on data obtained from a section of middle-aged members of a community in Switzerland over a 20-year period (15 January, 2001 and 26 December 2020). The aim of the report is to demonstrate the relationship between body max index and age among parenting and non-parenting members of the community.
+
+
+## Visualised data
+
+@fig-inscost shows the relationship between age and body mass index of parenting and non-parenting members of a community in Switzerland.
+
+```{r}
+#| output: false
+# Read data
+inscosts <- read_csv(here("data/raw/insurance_with_date.csv"))
+```
+
+```{r}
+inscosts_new <- inscosts %>% mutate(parenting = children>0)
+```
+
+```{r}
+#| label: fig-inscost
+#| fig-cap: "Relationship between age and body mass index of parenting and non-parenting members of a community in Switzerland"
+#| fig-width: 8
+#| fig-height: 4
+ggplot(inscosts_new, aes(age, bmi, color = sex)) + geom_point() + 
+  facet_wrap(~parenting) + geom_smooth(method = lm) + 
+  labs(x = "Age (years)", y = "Body mass index (BMI)")
+```
+
+```{r}
+
+```
+
+## Conclusion
+
+The BMI of members of this community increased with age and did not significantly differ between males and females, and between persons with or without children.
+
