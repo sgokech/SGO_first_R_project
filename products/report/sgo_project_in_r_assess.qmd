@@ -1,5 +1,5 @@
 ---
-title: "Body mass index of working adults in a community in Switzerland"
+title: "Body mass index of working adults in a community in the United States of America"
 author: Samuel G. Okech
 date: today
 format:
@@ -28,12 +28,12 @@ library(medicaldata)
 
 ## Introduction
 
-This report is based on data obtained from a section of middle-aged members of a community in Switzerland over a 20-year period (15 January, 2001 and 26 December 2020). The aim of the report is to demonstrate the relationship between body max index and age among parenting and non-parenting members of the community.
+This report is based on data obtained from a section of middle-aged members of a community in United States of America over a 20-year period (15 January, 2001 and 26 December 2020). The aim of the report is to demonstrate the relationship between body max index and age among parenting and non-parenting members of the community.
 
 
 ## Visualised data
 
-@fig-inscost shows the relationship between age and body mass index of parenting and non-parenting members of a community in Switzerland.
+@fig-inscost shows the relationship between age and body mass index of parenting and non-parenting members of a community in United States of America.
 
 ```{r}
 #| output: false
@@ -45,14 +45,20 @@ inscosts <- read_csv(here("data/raw/insurance_with_date.csv"))
 inscosts_new <- inscosts %>% mutate(parenting = children>0)
 ```
 
-```{r}
+```{r, message=FALSE}
 #| label: fig-inscost
-#| fig-cap: "Relationship between age and body mass index of parenting and non-parenting members of a community in Switzerland"
+#| fig-cap: "Relationship between age and body mass index of parenting and non-parenting members of a community in United States of America"
 #| fig-width: 8
 #| fig-height: 4
+
+inscosts_new$parenting <- as.factor(inscosts_new$parenting) # set factor for parenting
+
+levels(inscosts_new$parenting) <- c("No Children", "Have Children") # rename the levels
+
 ggplot(inscosts_new, aes(age, bmi, color = sex)) + geom_point() + 
   facet_wrap(~parenting) + geom_smooth(method = lm) + 
-  labs(x = "Age (years)", y = "Body mass index (BMI)")
+  labs(x = "Age (years)", y = "Body mass index (BMI)") + 
+  theme_bw()
 ```
 
 ```{r}
